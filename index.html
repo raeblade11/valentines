@@ -40,38 +40,34 @@
       margin-bottom: 30px;
       font-weight: normal;
     }
-    .buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  position: relative;
-  }
 
-    /* 🔥 BULLETPROOF BUTTON CENTERING */
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+    }
+
     button {
       width: 120px;
       height: 52px;
       border: none;
       border-radius: 15px;
-      margin: 10px;
-      padding: 0;
       cursor: pointer;
+      padding: 0;
 
       display: flex;
       align-items: center;
       justify-content: center;
-      background: none;
     }
 
     button span {
-      width: 100%;
-      height: 100%;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
+      width: 100%;
+      height: 100%;
       font-size: 18px;
       font-weight: 600;
       line-height: 1;
@@ -82,12 +78,11 @@
       color: white;
     }
 
-   #no {
-  background-color: #adb5bd;
-  color: black;
-  position: relative; /* centered initially */
-}
-
+    #no {
+      background-color: #adb5bd;
+      color: black;
+      position: relative; /* centered initially */
+    }
 
     /* Floating hearts */
     .heart {
@@ -96,17 +91,25 @@
       font-size: 22px;
       animation: floatUp 6s linear infinite;
       opacity: 0.8;
+      pointer-events: none;
     }
 
     @keyframes floatUp {
-      from {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-110vh);
-        opacity: 0;
-      }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: absolute;
+      font-size: 18px;
+      animation: confettiFall 1.8s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
     }
 
     /* YES screen */
@@ -140,20 +143,21 @@
   <div class="container">
     <h1>Nehal Sonawane 💖</h1>
     <h2>Will you be my Valentine? 💘</h2>
-    
-<div class="buttons">
-  <button id="yes"><span>Yes 💕</span></button>
-  <button id="no"><span>No 💔</span></button>
-</div>
 
+    <div class="buttons">
+      <button id="yes"><span>Yes 💕</span></button>
+      <button id="no"><span>No 💔</span></button>
+    </div>
   </div>
 
   <script>
     const noButton = document.getElementById("no");
     const yesButton = document.getElementById("yes");
 
-    // NO button runs away on touch/click
+    // NO button runs away
     function moveNoButton() {
+      noButton.style.position = "absolute"; // key fix
+
       const x = Math.random() * (window.innerWidth - noButton.clientWidth);
       const y = Math.random() * (window.innerHeight - noButton.clientHeight);
 
@@ -164,16 +168,37 @@
     noButton.addEventListener("touchstart", moveNoButton);
     noButton.addEventListener("click", moveNoButton);
 
+    // Confetti explosion
+    function launchConfetti() {
+      const emojis = ["🎉", "💖", "✨", "💕", "💘"];
+      for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.top = "0px";
+        confetti.style.animationDuration = (1 + Math.random()) + "s";
+
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }
+
     // YES clicked
     yesButton.addEventListener("click", () => {
-      document.body.innerHTML = `
-        <div class="yes-screen">
-          <div class="yes-box">
-            <img src="a3eaa4af-856f-4830-a674-a75c977d1597.jpeg" alt="Us ❤️">
-            <h1>You are already mine bitchass ❤️🥰</h1>
+      launchConfetti();
+
+      setTimeout(() => {
+        document.body.innerHTML = `
+          <div class="yes-screen">
+            <div class="yes-box">
+              <img src="a3eaa4af-856f-4830-a674-a75c977d1597.jpeg" alt="Us ❤️">
+              <h1>You are already mine ❤️🥰</h1>
+            </div>
           </div>
-        </div>
-      `;
+        `;
+      }, 700);
     });
 
     // Floating hearts
