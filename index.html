@@ -40,6 +40,13 @@
       margin-bottom: 30px;
       font-weight: normal;
     }
+    .buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  }
 
     /* 🔥 BULLETPROOF BUTTON CENTERING */
     button {
@@ -75,11 +82,12 @@
       color: white;
     }
 
-    #no {
-      background-color: #adb5bd;
-      color: black;
-      position: absolute;
-    }
+   #no {
+  background-color: #adb5bd;
+  color: black;
+  position: relative; /* centered initially */
+}
+
 
     /* Floating hearts */
     .heart {
@@ -132,9 +140,12 @@
   <div class="container">
     <h1>Nehal Sonawane 💖</h1>
     <h2>Will you be my Valentine? 💘</h2>
+    
+<div class="buttons">
+  <button id="yes"><span>Yes 💕</span></button>
+  <button id="no"><span>No 💔</span></button>
+</div>
 
-    <button id="yes"><span>Yes 💕</span></button>
-    <button id="no"><span>No 💔</span></button>
   </div>
 
   <script>
